@@ -1,7 +1,7 @@
 ﻿
 <!DOCTYPE html>
 <html lang="zh-CN">
-<!--COC Log Painter @Fengyu -->
+<!--COC Log Painter @Fengyu Modified by Suhui-->
 <!-- Version 2.1  01/31/2016 LAX -->
 <!-- Version 2.2  09/17/2016 -->
 <!-- Version 2.3  02/17/2017 -->
@@ -17,7 +17,6 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -->
-<!-- 代码压缩懒得做了啊，写的乱糟糟的 =。= -->
 
 <head>
     <title>QQ跑团记录着色器</title>
@@ -36,12 +35,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <link href="color-picker.min.css" rel="stylesheet">
     <script src="color-picker.min.js"></script>
 
+    <link rel="shortcut icon" href="favicon.ico" />
 
     <style type="text/css">
         body {
             background-color: #D1EAF7;
             transition: background-color 1.5s ease;
-            /*background-image: linear-gradient(90deg, #e3e1fc, #f6ffbe);*/
         }
 
         #div_page {
@@ -220,9 +219,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <script type="text/javascript">
 
         (function ($, w, d) {
-            console.log("Main Function");
             function switchToSpecialMode1() {
-                console.log("Switch to Special");
                 $("body").css("background-color", "#f0e4f7");
                 $("#div_log_view").css("background-color", "#ffffff");
                 $("#header_title").fadeOut("fast",
@@ -251,7 +248,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function switchToDefaultMode() {
-                console.log("Switch to Default");
                 $("body").css("background-color", "#D1EAF7");
                 $("#div_log_view").css("background-color", "");
                 $("#header_title").fadeOut("fast",
@@ -280,16 +276,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             $("#specialMode1").click(function () {
-                console.log("Special Click");
                 switchToSpecialMode1();
             });
             $("#defaultMode").click(function () {
-                console.log("Default Click");
                 switchToDefaultMode();
             });
 
             $(d).ready(function () {
-                console.log("D ready");
                 $("#div_log").hide();
                 $("#button_palette").hide();
                 $("#defaultMode").hide();
@@ -300,7 +293,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 }
             });
             $("#button_log_command").click(function () {
-                console.log("Button Log Command Click");
                 commandFilter = !commandFilter;
                 if (!commandFilter) {
                     $(this).removeClass('btn-info');
@@ -313,7 +305,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 }
             });
             $("#button_log_other").click(function () {
-                console.log("Button Log Other Click");
                 otherFilter = !otherFilter;
                 if (!otherFilter) {
                     $(this).removeClass('btn-info');
@@ -326,7 +317,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 }
             });
             $("#button_log_pic_text").click(function () {
-                console.log("Button Log Pic Click");
                 picTextFilter = !picTextFilter;
                 if (!picTextFilter) {
                     $(this).removeClass('btn-info');
@@ -340,7 +330,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             });
 
             $("#button_log_time").click(function () {
-                console.log("Button Log Time Click");
                 timeSwitch = !timeSwitch;
                 if (!timeSwitch) {
                     $(this).removeClass('btn-info');
@@ -354,7 +343,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             });
 
             $("#button_log_clear").click(function () {
-                console.log("Button Log Clear Click");
                 $("html,body").animate({ scrollTop: 1 }, "fast");
                 nameList = [];
                 logList = [];
@@ -365,7 +353,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             });
 
             $("#div_log_view").dblclick(function () {
-                console.log("Log View DblClick");
                 selectDivText(this.id);
             });
 
@@ -374,7 +361,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             });
 
             function selectDivText(containerid) {
-                console.log("Select Div Text");
                 var range;
                 if (window.getSelection) {
                     range = document.createRange();
@@ -390,7 +376,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             $("#button_palette").click(function () {
-                console.log("Button Palette Click");
                 paletteMode = !paletteMode;
                 getPlayerGrids(); //重新绘制颜色区
                 if (paletteMode) {
@@ -432,21 +417,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
             //TODO_IF_NEEDED it can be extended to more colors a player so that name and content can be separated clearly
             function Player(name, colorIndex) {
-                console.log("Player");
                 this.name = name;
                 this.color = colorList[colorIndex];
                 this.valid = true;
             }
 
             function Line(time, player, content) {
-                console.log("Line");
                 this.time = time;
                 this.player = player;
                 this.content = content;
             }
 
             function hasPlayer(name) {
-                console.log("hasPlayer");
                 for (var j = 0; j < nameList.length; j++) {
                     if (nameList[j].name == name) {
                         return true;
@@ -456,12 +438,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function addPlayer(name, colorIndex) {
-                console.log("Add Player");
                 nameList[nameList.length] = new Player(name, colorIndex);
             }
 
             function getPlayer(name) {
-                console.log("Get Player");
                 for (var j = 0; j < nameList.length; j++) {
                     if (nameList[j].name == name) {
                         return nameList[j];
@@ -471,7 +451,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function getSelectsHTML(id) {
-                console.log("Get Selects HTML");
                 var selectID = "select_" + id;
                 var html = "";
                 html += '<select name ="' + id + '" id ="' + selectID + '" class="form-control">';
@@ -489,7 +468,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function getPaletteHTML(id) {
-                console.log("Get Palette HTML");
                 var paletteID = "palette_" + id;
                 var html = "<input class = \"form-control palette\" name = \"" +
                     id +
@@ -500,17 +478,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function registerPaletteAction() {
-                console.log("register Palette");
                 $(".palette").each(function () {
 
-                    console.log("Palette each");
                     var palette = this;
                     var picker = new w.CP(palette);
                     //Change color
 
                     picker.on("change",
                         function (color) {
-                            console.log("Palette change");
                             var colorStr = '#' + color;
                             this.source.value = colorStr;
                             $(this.source).css("background-color", colorStr);
@@ -518,32 +493,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         });
 
                     $(this).click(function () {
-                        console.log("Palette Click");
                         $(this).select();
                     });
 
                     $(this).change(function () {
-                        console.log("Palette Change2");
-                        console.log(w.CP.parse($(this).val()));
                         picker.set(w.CP.parse($(this).val()));
                     });
-                    console.log(w.CP.__instance__);
                 });
             }
 
-            /*//deprecated
-            function getButtonHTML(id) {
-                var html = "";
-                html += '<button type ="button" class="btn btn-success" id ="' + id + '">' + "On" + '</button>';
-                return html;
-            }
-
-            function packageGrid(html, i) {
-                return '<div class="col-sm-' + i.toString() + '">' + html + '</div>';
-            }*/
-
             function registerColorSelectorAction() {
-                console.log("Reg CS");
                 $("select").change(function () {
                     var color = $(this).val();
                     var id = parseInt($(this).attr("name"));
@@ -563,16 +522,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function getPlayerCell(id, name) {
-                console.log("Get Player Cell");
                 var html;
-                /*
-                var selectID = "option_"+name;
-                var buttonID = "button_"+name;
-                var labelHTML = '<label>' + name +'</label>';
-                html += packageGrid(labelHTML,1);
-                html += packageGrid(getSelectsHTML(selectID),3);
-                html += packageGrid(getButtonHTML(buttonID),2);
-                */
 
                 //Using template
                 if (paletteMode) {
@@ -589,7 +539,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function getPlayerGrids() {
-                console.log("Get Player Grids");
                 //2 players 1 line
                 var html = '<div class="div_center div_italic" style="color:red"><p>出现的PC名字 (点击可以修改)</p><br></div>';
                 var i;
@@ -633,7 +582,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function selectInit() {
-                console.log("SelectInit");
                 for (var i = 0; i < nameList.length; i++) {
                     var selectID = "#select_" + i;
                     var color = colorList[i];
@@ -644,14 +592,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function changeSwitch(playerID) {
-                console.log("Change Switch");
                 nameList[playerID].valid = !nameList[playerID].valid;
                 paintLog();
                 return nameList[playerID].valid;
             }
 
             function changeColor(playerID, color) {
-                console.log("Change Color");
                 nameList[playerID].color = color;
                 //Update it
                 if (nameList[playerID].valid) {
@@ -664,7 +610,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             /////////////////////////////////////////////////////////////////
             //特殊模式1
             function parseInputSpecialMode1() {
-                console.log("Parse Special");
                 //Initialize
                 nameList = [];
                 logList = [];
@@ -707,7 +652,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function paintLogSpecialMode1() {
-                console.log("Log Special");
                 var output = "";
                 var outputHTML = "";
 
@@ -751,7 +695,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
             //QQ聊天记录识别
             function parseInput() {
-                console.log("Parse Input");
                 //Initialize
                 nameList = [];
                 logList = [];
@@ -841,7 +784,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
             function paintLogDefault() {
-                console.log("Paint Default");
                 var output = "";
                 var outputHTML = "";
 
@@ -884,7 +826,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             function paintLog() {
-                console.log("Paint Log");
                 switch (formatMode) {
                     case 1:
                         paintLogSpecialMode1();
@@ -895,7 +836,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             $("#button_log_analyze").click(function () {
-                console.log("Analyze Click");
                 if ($("#textarea_log_input").val() != "") {
                     $("html,body").animate({ scrollTop: $("#div_names").offset().top }, 500);
                 }
@@ -928,5 +868,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
     </script>
 </body>
-<!--COC Log Painter @Fengyu-->
 </html>
