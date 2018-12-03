@@ -494,6 +494,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         picker.set(w.CP.parse($(this).val()));
                     });
                 });
+
+                $(".input_name").change(function () {
+                    var newName = $(this).val();
+                    var id = parseInt($(this).attr("name"));
+                    nameList[id].name = newName;
+                    paintLog();
+                });
             }
 
             function registerColorSelectorAction() {
@@ -504,7 +511,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     changeColor(id, color);
                 });
 
-                $("input").change(function () {
+                $(".input_name").change(function () {
                     var newName = $(this).val();
                     var id = parseInt($(this).attr("name"));
                     nameList[id].name = newName;
