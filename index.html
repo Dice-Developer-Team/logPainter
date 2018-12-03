@@ -362,17 +362,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
             function selectDivText(containerid) {
                 var range;
-                if (window.getSelection) {
-                    range = document.createRange();
-                    range.selectNode(document.getElementById(containerid));
-                    var selection = window.getSelection();
-                    selection.empty();
-                    selection.addRange(range);
-                } else if (document.selection) {
-                    range = document.body.createTextRange();
-                    range.moveToElementText(document.getElementById(containerid));
-                    range.select();
-                }
+                range = document.createRange();
+                range.selectNode(document.getElementById(containerid));
+                var selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
             }
 
             $("#button_palette").click(function () {
