@@ -5,10 +5,10 @@
 <!-- Version 2.1  01/31/2016 LAX -->
 <!-- Version 2.2  09/17/2016 -->
 <!-- Version 2.3  02/17/2017 -->
-<!-- Version 2.4  02/12/2018 修正部分错误 更新依赖by溯洄-->
-<!-- Copyright 2017, hina.moe -->
+<!-- Copyright 2017-2018, hina.moe -->
+<!-- Version 2.4  02/12/2018 优化界面 修正部分错误 更新依赖by溯洄-->
 <!-- Copyright 2018, kokona.tech -->
-<!-- 
+<!--
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -17,19 +17,18 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -->
-
 <!-- 代码压缩懒得做了啊，写的乱糟糟的 =。= -->
 
 <head>
     <title>QQ跑团记录着色器</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <!-- jQuery CDN-->
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- bootstrap CDN-->
     <script src="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    
+
     <!-- Latest compiled and minified CSS -->
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
 
@@ -45,7 +44,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             /*background-image: linear-gradient(90deg, #e3e1fc, #f6ffbe);*/
         }
 
-        #div_page { margin: 50px; }
+        #div_page {
+            margin: 50px;
+        }
 
         #div_names {
             margin-bottom: 20px;
@@ -86,11 +87,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             width: 100%;
         }
 
-        .div_center { text-align: center; }
+        .div_center {
+            text-align: center;
+        }
 
-        .div_italic { font-style: italic; }
+        .div_italic {
+            font-style: italic;
+        }
 
-        #div_button { margin: 10px; }
+        #div_button {
+            margin: 10px;
+        }
 
         li {
             background-color: #f6ffbe;
@@ -107,54 +114,54 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </style>
 </head>
 <body>
-<div id="div_page">
-    <div>
+    <div id="div_page">
+        <div>
+            <div class="div_center">
+                <h3 id="header_title">QQ跑团记录着色器</h3><h5 id="header_version">v2.4 by 风羽(溯洄改)</h5>
+            </div>
+            <div class="div_italic">
+                <a href="http://aligo.github.io/log-colourer.js">前辈的mirc版传送门</a><br>
+                <a id="specialMode1" href="javascript:void(0);">艾德琳的文本着色器</a>
+                <a id="defaultMode" href="javascript:void(0);">QQ跑团记录着色器</a>
+            </div>
+            <h6>将QQ聊天记录的【文本】复制到下面这个文本框中,然后点击按钮【Analyze】</h6>
+
+        </div>
+        <div>
+            <textarea class="form-control" id="textarea_log_input"></textarea>
+        </div>
+
+        <div id="div_button" class="div_center">
+            <div>
+                <button class="button_filter btn btn-info" id="button_log_command" style="margin-bottom: 2px">指令过滤 On</button>
+                <button class="button_filter btn btn-info" id="button_log_other" style="margin-bottom: 2px">(开头内容过滤 On</button>
+                <button class="button_filter btn btn-info" id="button_log_pic_text" style="margin-bottom: 2px"> [图片]过滤 On</button>
+                <button class="button_filter btn btn-info" id="button_log_time" style="margin-bottom: 2px"> 显示时间 On</button>
+            </div>
+            <br />
+            <div>
+                <button class="button_controller btn btn-success" id="button_log_analyze" style="margin-bottom: 2px">Analyze</button>
+                <button class="button_controller btn btn-warning" id="button_log_clear" style="margin-bottom: 2px">清除输入</button>
+                <button class="button_controller btn btn-success" id="button_palette" style="margin-bottom: 2px">使用调色盘</button>
+            </div>
+
+        </div>
+        <br />
+
         <div class="div_center">
-            <h3 id="header_title">QQ跑团记录着色器</h3><h5 id="header_version">v2.4 by 风羽(溯洄改)</h5>
-        </div>
-        <div class="div_italic">
-            <a href="http://aligo.github.io/log-colourer.js">前辈的mirc版传送门</a><br>
-            <a id="specialMode1" href="javascript:void(0);">艾德琳的文本着色器</a>
-            <a id="defaultMode" href="javascript:void(0);">QQ跑团记录着色器</a>
-        </div>
-        <h6>将QQ聊天记录的【文本】复制到下面这个文本框中,然后点击按钮【Analyze】</h6>
 
-    </div>
-    <div>
-        <textarea class="form-control" id ="textarea_log_input"></textarea>
-    </div>
-
-    <div id="div_button" class="div_center">
-        <div>
-            <button class="button_filter btn btn-info" id="button_log_command" style="margin-bottom: 2px">指令过滤 On</button>
-            <button class="button_filter btn btn-info" id="button_log_other" style="margin-bottom: 2px">(开头内容过滤 On</button>
-            <button class="button_filter btn btn-info" id="button_log_pic_text" style="margin-bottom: 2px"> [图片]过滤 On</button>
-            <button class="button_filter btn btn-info" id="button_log_time" style="margin-bottom: 2px"> 显示时间 On</button>
         </div>
-        <br/>
-        <div>
-            <button class="button_controller btn btn-success" id="button_log_analyze" style="margin-bottom: 2px">Analyze</button>
-            <button class="button_controller btn btn-warning" id="button_log_clear" style="margin-bottom: 2px">清除输入</button>
-            <button class="button_controller btn btn-success" id="button_palette" style="margin-bottom: 2px">使用调色盘</button>
+        <div id="div_names">
+        </div>
+        <div class="div_center">
+            <a href="http://www.goddessfantasy.net/bbs/index.php?action=post;board=1209.0" target="_blank">贴到风羽的果园版</a>
         </div>
 
-    </div>
-    <br>
+        <div id="div_log">
+            <h6>复制预览部分内容可得TXT文本，输出部分为果园用代码</h6>
 
-    <div class="div_center">
+            <!-- Nav tabs -->
 
-    </div>
-    <div id="div_names">
-    </div>
-    <div class="div_center">
-        <a href="http://www.goddessfantasy.net/bbs/index.php?action=post;board=1209.0" target="_blank">贴到风羽的果园版</a>
-    </div>
-
-    <div id="div_log">
-        <h6>复制预览部分内容可得TXT文本，输出部分为果园用代码</h6>
-
-        <!-- Nav tabs -->
-        
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active show" href="#div_log_view" aria-controls="div_log_view" role="tab" data-toggle="tab">预览</a>
@@ -163,732 +170,763 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <a class="nav-link" href="#div_log_output" aria-controls="div_log_output" role="tab" data-toggle="tab">输出</a>
                 </li>
             </ul>
-        
 
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade active show" id="div_log_view">
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade active show" id="div_log_view">
+                </div>
+
+
+                <div role="tabpanel" class="tab-pane fade" id="div_log_output">
+                    <textarea class="form-control" id="textarea_log_output"></textarea>
+                </div>
             </div>
 
-
-            <div role="tabpanel" class="tab-pane fade" id="div_log_output">
-                <textarea class="form-control" id="textarea_log_output"></textarea>
-            </div>
         </div>
-
     </div>
-</div>
 
-<script id="html_player_grid" type="html/template">
-	<div class="col-sm-2">
-		<input type="text" class="font-control input_name" name="&id" value="&name" placeholder="删除消息请点右边开关">
-	</div>
-	<div class="col-sm-2" style="min-width: 150px">
-		&select
-	</div>
-	<div class="col-sm-1" style="min-width: 80px">
-		<button style="text-align: center" type ="button" class="btn btn-success button_player" name ="&id" >On</button>
-	</div>
-		<div class="col-sm-1">
-	</div>
- </script>
+    <script id="html_player_grid" type="html/template">
+        <div class="col-sm-2">
+            <input type="text" class="font-control input_name" name="&id" value="&name" placeholder="删除消息请点右边开关">
+        </div>
+        <div class="col-sm-2" style="min-width: 150px">
+            &select
+        </div>
+        <div class="col-sm-1" style="min-width: 80px">
+            <button style="text-align: center" type="button" class="btn btn-success button_player" name="&id">On</button>
+        </div>
+        <div class="col-sm-1">
+        </div>
+    </script>
 
-<script type="text/javascript">
+    <div class="div_footer">
+        <!--采用container-fluid，使得整个页尾的宽度为100%，并设置它的背景色-->
+        <footer class="container-fluid foot-wrap">
+            <!--采用container，使得页尾内容居中 -->
+            <div class="container div_center">
+                <a href="http://hina.moe/coc/logPainter.php">风羽的原版着色器</a>
+            </div><!--/.container-->
 
-    (function($, w, d) {
-        console.log("Main Function");
-        function switchToSpecialMode1() {
-            console.log("Switch to Special");
-            $("body").css("background-color", "#f0e4f7");
-            $("#div_log_view").css("background-color", "#ffffff");
-            $("#header_title").fadeOut("fast",
-                function() {
-                    $("#header_title").text("艾德琳的文本着色器");
-                    $("#header_title").fadeIn();
-                });
 
-            $("#header_version").fadeOut("slow",
-                function() {
-                    $("#header_version").text("v1.1 by 风羽(溯洄改)");
-                    $("#header_version").fadeIn();
-                });
-            $("#specialMode1").hide();
-            $("#defaultMode").show();
-            paletteMode = true;
-            formatMode = 1;
-        }
+            <p align="center" style="margin-top: 20px;color:#878B91;">
+                原作者:风羽 Copyright &copy;2017-2018 hina.moe
+                <br />
+                修改: 溯洄 Copyright &copy;2018 kokona.tech
+            </p>
 
-        function switchToDefaultMode() {
-            console.log("Switch to Default");
-            $("body").css("background-color", "#D1EAF7");
-            $("#div_log_view").css("background-color", "");
-            $("#header_title").fadeOut("fast",
-                function() {
-                    $("#header_title").text("QQ跑团记录着色器");
-                    $("#header_title").fadeIn();
-                });
 
-            $("#header_version").fadeOut("slow",
-                function() {
-                    $("#header_version").text("v2.4 by 风羽(溯洄改)");
-                    $("#header_version").fadeIn();
-                });
-            $("#defaultMode").hide();
-            $("#specialMode1").show();
-            formatMode = 0;
-            paletteMode = false;
-        }
+        </footer>
+    </div>
+    <script type="text/javascript">
 
-        $("#specialMode1").click(function () {
-            console.log("Special Click");
-            switchToSpecialMode1();
-        });
-        $("#defaultMode").click(function () {
-            console.log("Default Click");
-            switchToDefaultMode();
-        });
-
-        $(d).ready(function () {
-            console.log("D ready");
-            $("#div_log").hide();
-            $("#button_palette").hide();
-            $("#defaultMode").hide();
-
-            var input = $("#textarea_log_input").val();
-            if (input != "") {
-                $("#button_log_analyze").click();
-            }
-        });
-        $("#button_log_command").click(function () {
-            console.log("Button Log Command Click");
-            commandFilter = !commandFilter;
-            if (!commandFilter) {
-                $(this).removeClass('btn-info');
-                $(this).text('指令过滤 Off');
-                $(this).addClass('btn-warning');
-            } else {
-                $(this).addClass('btn-info');
-                $(this).text('指令过滤 On');
-                $(this).removeClass('btn-warning');
-            }
-        });
-        $("#button_log_other").click(function () {
-            console.log("Button Log Other Click");
-            otherFilter = !otherFilter;
-            if (!otherFilter) {
-                $(this).removeClass('btn-info');
-                $(this).text('(开头内容过滤 Off');
-                $(this).addClass('btn-warning');
-            } else {
-                $(this).addClass('btn-info');
-                $(this).text('(开头内容过滤 On');
-                $(this).removeClass('btn-warning');
-            }
-        });
-        $("#button_log_pic_text").click(function () {
-            console.log("Button Log Pic Click");
-            picTextFilter = !picTextFilter;
-            if (!picTextFilter) {
-                $(this).removeClass('btn-info');
-                $(this).text('[图片]过滤 Off');
-                $(this).addClass('btn-warning');
-            } else {
-                $(this).addClass('btn-info');
-                $(this).text('[图片]过滤 On');
-                $(this).removeClass('btn-warning');
-            }
-        });
-
-        $("#button_log_time").click(function () {
-            console.log("Button Log Time Click");
-            timeSwitch = !timeSwitch;
-            if (!timeSwitch) {
-                $(this).removeClass('btn-info');
-                $(this).text('显示时间 Off');
-                $(this).addClass('btn-warning');
-            } else {
-                $(this).addClass('btn-info');
-                $(this).text('显示时间 On');
-                $(this).removeClass('btn-warning');
-            }
-        });
-
-        $("#button_log_clear").click(function () {
-            console.log("Button Log Clear Click");
-            $("#div_log").hide();
-            $("#button_palette").hide();
-            $("#defaultMode").hide();
-            $("#textarea_log_input").val("");
-            $("#div_names").html("");
-            $("html,body").animate({ scrollTop: 1 }, 0);
-        });
-
-        $("#div_log_view").dblclick(function () {
-            console.log("Log View DblClick");
-            selectDivText(this.id);
-        });
-
-        $("#textarea_log_output").click(function () {
-            $(this).select();
-        });
-
-        function selectDivText(containerid) {
-            console.log("Select Div Text");
-            var range;
-            if (window.getSelection) {
-                range = document.createRange();
-                range.selectNode(document.getElementById(containerid));
-                var selection = window.getSelection();
-                selection.empty();
-                selection.addRange(range);
-            } else if (document.selection) {
-                range = document.body.createTextRange();
-                range.moveToElementText(document.getElementById(containerid));
-                range.select();
-            }
-        }
-
-        $("#button_palette").click(function () {
-            console.log("Button Palette Click");
-            paletteMode = !paletteMode;
-            getPlayerGrids(); //重新绘制颜色区
-            if (paletteMode) {
-                $(this).text('使用果园颜色');
+        (function ($, w, d) {
+            console.log("Main Function");
+            function switchToSpecialMode1() {
+                console.log("Switch to Special");
+                $("body").css("background-color", "#f0e4f7");
                 $("#div_log_view").css("background-color", "#ffffff");
-            } else {
-                $(this).text('使用调色盘');
-                $("#div_log_view").css("background-color", "");
-                paintLog();
-            }
-        });
-
-//Closure Variables
-
-        //Player Index
-        var nameList = [];
-        //Log Lines
-        var logList = [];
-
-//Configuration
-
-        //Color Index
-        var colorList =
-            "red;green;pink;orange;purple;black;blue;yellow;beige;brown;teal;navy;maroon;limegreen;white;fuchsia;silver"
-                .split(';');
-        var colorNameList = "红色;绿色;粉红;橘色;紫色;黑色;蓝色;黄色;米色;棕色;蓝绿;深蓝;紫红;莱姆;白色;桃红;灰色".split(';');
-        //Default color of time
-        var timeColor = "silver";
-        var commandFilter = true;
-        var otherFilter = true;
-        var picTextFilter = true;
-        var timeSwitch = true;
-        var paletteMode = false;
-
-        ////Format Mode Dictionary
-        // 0 QQ聊天记录
-        // 1 艾德琳的文本
-        var formatMode = 0;
-
-        //TODO_IF_NEEDED it can be extended to more colors a player so that name and content can be seperated clearly
-        function Player(name, colorIndex) {
-            console.log("Player");
-            this.name = name;
-            this.color = colorList[colorIndex];
-            this.valid = true;
-        }
-
-        function Line(time, player, content) {
-            console.log("Line");
-            this.time = time;
-            this.player = player;
-            this.content = content;
-        }
-
-        function hasPlayer(name) {
-            console.log("hasPlayer");
-            for (var j = 0; j < nameList.length; j++) {
-                if (nameList[j].name == name) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function addPlayer(name, colorIndex) {
-            console.log("Add Player");
-            nameList[nameList.length] = new Player(name, colorIndex);
-        }
-
-        function getPlayer(name) {
-            console.log("Get Player");
-            for (var j = 0; j < nameList.length; j++) {
-                if (nameList[j].name == name) {
-                    return nameList[j];
-                }
-            }
-            return null;
-        }
-
-        function getSelectsHTML(id) {
-            console.log("Get Selects HTML");
-            var selectID = "select_" + id;
-            var html = "";
-            html += '<select name ="' + id + '" id ="' + selectID + '" class="form-control">';
-            for (var i = 0; i < colorNameList.length; i++) {
-                html += '<option value="' +
-                    colorList[i] +
-                    '" style="background-color:' +
-                    colorList[i] +
-                    ';">' +
-                    colorNameList[i] +
-                    '</option>';
-            }
-            html += '</select>';
-            return html;
-        }
-
-        function getPaletteHTML(id) {
-            console.log("Get Palette HTML");
-            var paletteID = "palette_" + id;
-            var html = "<input class = \"form-control palette\" name = \"" +
-                id +
-                '" id ="' +
-                paletteID +
-                "\" type=\"text\">";
-            return html;
-        }
-
-        function registerPaletteAction() {
-            console.log("register Palette");
-            $(".palette").each(function() {
-
-                console.log("Palette each");
-                var palette = this;
-                var picker = new w.CP(palette);
-                //Change color
-
-                picker.on("change",
-                    function (color) {
-                        console.log("Palette change");
-                        var colorStr = '#' + color;
-                        this.source.value = colorStr;
-                        $(this.source).css("background-color", colorStr);
-                        changeColor(this.source.name, colorStr);
+                $("#header_title").fadeOut("fast",
+                    function () {
+                        $("#header_title").text("艾德琳的文本着色器");
+                        $("#header_title").fadeIn();
                     });
 
-                $(this).click(function () {
-                    console.log("Palette Click");
-                    $(this).select();
-                });
+                $("#header_version").fadeOut("slow",
+                    function () {
+                        $("#header_version").text("v1.1 by 风羽(溯洄改)");
+                        $("#header_version").fadeIn();
+                    });
+                $("#specialMode1").hide();
+                $("#defaultMode").show();
+                formatMode = 1;
+                paletteMode = true;
+                $("#button_palette").text('使用果园颜色');
+                $("#div_log_view").css("background-color", "#ffffff");
+                nameList = [];
+                logList = [];
+                $("html,body").animate({ scrollTop: 1 }, "fast");
+                $("#div_log").fadeOut("fast");
+                $("#button_palette").hide();
+                $("#div_names").html("");
+            }
 
-                $(this).change(function () {
-                    console.log("Palette Change2");
-                    console.log(w.CP.parse($(this).val()));
-                    picker.set(w.CP.parse($(this).val()));
-                });
-                console.log(w.CP.__instance__);
+            function switchToDefaultMode() {
+                console.log("Switch to Default");
+                $("body").css("background-color", "#D1EAF7");
+                $("#div_log_view").css("background-color", "");
+                $("#header_title").fadeOut("fast",
+                    function () {
+                        $("#header_title").text("QQ跑团记录着色器");
+                        $("#header_title").fadeIn();
+                    });
+
+                $("#header_version").fadeOut("slow",
+                    function () {
+                        $("#header_version").text("v2.4 by 风羽(溯洄改)");
+                        $("#header_version").fadeIn();
+                    });
+                $("#defaultMode").hide();
+                $("#specialMode1").show();
+                formatMode = 0;
+                paletteMode = false;
+                $("#button_palette").text('使用调色盘');
+                $("#div_log_view").css("background-color", "");
+                nameList = [];
+                logList = [];
+                $("html,body").animate({ scrollTop: 1 }, "fast");
+                $("#div_log").fadeOut("fast");
+                $("#button_palette").hide();
+                $("#div_names").html("");
+            }
+
+            $("#specialMode1").click(function () {
+                console.log("Special Click");
+                switchToSpecialMode1();
             });
-        }
-
-        //deprecated
-        function getButtonHTML(id) {
-            var html = "";
-            html += '<button type ="button" class="btn btn-success" id ="' + id + '">' + "On" + '</button>';
-            return html;
-        }
-
-        function packageGrid(html, i) {
-            return '<div class="col-sm-' + i.toString() + '">' + html + '</div>';
-        }
-
-        function registerColorSelectorAction() {
-            console.log("Reg CS");
-            $("select").change(function() {
-                var color = $(this).val();
-                var id = parseInt($(this).attr("name"));
-                $(this).css("background-color", color);
-                changeColor(id, color);
+            $("#defaultMode").click(function () {
+                console.log("Default Click");
+                switchToDefaultMode();
             });
 
-            $("input").change(function() {
-                var newName = $(this).val();
-                var id = parseInt($(this).attr("name"));
-                nameList[id].name = newName;
-                paintLog();
-            });
-
-            //Update select s' colors
-            selectInit();
-        }
-
-        function getPlayerCell(id, name) {
-            console.log("Get Player Cell");
-            var html = "";
-            /*
-            var selectID = "option_"+name;
-            var buttonID = "button_"+name;
-            var labelHTML = '<label>' + name +'</label>';
-            html += packageGrid(labelHTML,1);
-            html += packageGrid(getSelectsHTML(selectID),3);
-            html += packageGrid(getButtonHTML(buttonID),2);
-            */
-
-            //Using template
-            var selectedColor = nameList[id].color;
-            if (paletteMode) {
-                //调色盘模式
-                html = $("#html_player_grid").html().replace(/&name/g, name)
-                    .replace(/&id/g, id).replace('&select', getPaletteHTML(id));
-            } else {
-                //默认 果园颜色选择
-                html = $("#html_player_grid").html().replace(/&name/g, name)
-                    .replace(/&id/g, id).replace('&select', getSelectsHTML(id));
-            }
-
-            return html;
-        }
-
-        function getPlayerGrids() {
-            console.log("Get Player Grids");
-            //2 players 1 line
-            var html = '<div class="div_center div_italic" style="color:red"><p>出现的PC名字 (点击可以修改)</p><br></div>';
-            var i;
-            for (i = 0; i < nameList.length; i++) {
-                if (i % 2 == 0) {
-                    html += '<div class="row">';
-                }
-                html += getPlayerCell(i, nameList[i].name);
-                if (i % 2 == 1) {
-                    html += '</div>';
-                }
-            }
-            if (i % 2 == 0) {
-                html += '</div>';
-            }
-
-            $("#div_names").html(html);
-
-            //初始化所有调色盘后，绑定事件
-            if (paletteMode) {
-                registerPaletteAction();
-            } else {
-                registerColorSelectorAction();
-            }
-
-            $("#button_palette").fadeTo("slow", 0.7);
-
-            $(".button_player").click(function() {
-                var id = parseInt($(this).attr("name"));
-                var switchNow = changeSwitch(id);
-                if (!switchNow) {
-                    $(this).removeClass('btn-success');
-                    $(this).text('Off');
-                    $(this).addClass('btn-default');
-                } else {
-                    $(this).addClass('btn-success');
-                    $(this).text('On');
-                    $(this).removeClass('btn-default');
-                }
-            });
-        }
-
-        function selectInit() {
-            console.log("SelectInit");
-            for (var i = 0; i < nameList.length; i++) {
-                var selectID = "#select_" + i;
-                color = colorList[i];
-                nameList[i].color = color;
-                $(selectID).val(color);
-                $(selectID).css("background-color", color);
-            }
-        }
-
-        function changeSwitch(playerID) {
-            console.log("Change Switch");
-            nameList[playerID].valid = !nameList[playerID].valid;
-            paintLog();
-            return nameList[playerID].valid;
-        }
-
-        function changeColor(playerID, color) {
-            console.log("Change Color");
-            nameList[playerID].color = color;
-            //Update it
-            if (nameList[playerID].valid) {
-                paintLog();
-            }
-        }
-
-        var regLetter = /^[a-zA-Z].*/;
-
-        /////////////////////////////////////////////////////////////////
-        //特殊模式1
-        function parseInputSpecialMode1() {
-            console.log("Parse Special");
-            //Initialize
-            parsedLines = [];
-            nameList = [];
-            logList = [];
-            $("#div_names").html("");
-            $("#div_log").hide();
-
-            var data = $("#textarea_log_input").val();
-
-            var reg = /(.+?)[:：](.*)/; // 2016-01-03 \d{2}:\d{2}:\d{2}/g name
-
-            var lines = data.split("\n");
-            var name = "";
-            var time = "";
-            var colorIndex = 0;
-            var player = "";
-            var content = "";
-            addPlayer("旁白", 0);
-
-            for (var i = 0; i < lines.length; i++) {
-                //if(lines[i].length == 0){continue;}
-                var res = lines[i].match(reg);
-                if (res != null) {
-                    name = res[1].trim();
-                    content = res[2];
-                    if (name != "") {
-                        if (!hasPlayer(name)) {
-                            addPlayer(name, colorIndex);
-                            colorIndex ++;
-                        }
-                    }
-                    var log = new Line(time, getPlayer(name), content);
-                    logList[logList.length] = log;
-                } else {
-                    var log = new Line(time, getPlayer("旁白"), lines[i]);
-                    logList[logList.length] = log;
-                }
-            }
-
-            return nameList.length;
-        }
-
-        function paintLogSpecialMode1() {
-            console.log("Log Special");
-            var output = "";
-            var outputHTML = "";
-
-            for (var i = 0; i < logList.length; i++) {
-
-                var playerColor = logList[i].player.color;
-                var playerName = logList[i].player.name;
-                var content = logList[i].content;
-
-
-                //该模式下，点人名的开关会把它的话变成旁白，用于纠正错误匹配。无法移去人物对话。
-                if (logList[i].player.valid == false && playerName != "旁白") {
-                    playerName = "";
-                    playerColor = getPlayer("旁白").color;
-                    content = logList[i].player.name + "：" + logList[i].content;
-                }
-
-                if (playerName == "旁白") {
-                    playerName = "";
-                } else if (playerName != "") {
-                    playerName += "：";
-                }
-
-                output += ("[color=" + playerColor + "]" + "" + playerName);
-                output += content;
-                output += "[/color]\n";
-
-                outputHTML += ("<span style=\"color:" + playerColor + ";\">" + "" + playerName);
-                outputHTML += content;
-                outputHTML += "</span><br>";
-            }
-
-            if (paletteMode) {
-                output = "调色盘模式下的颜色不兼容果园代码，请双击全选预览中的文字，复制粘贴到Word中保存";
-            }
-            $("#textarea_log_output").val(output);
-
-            $("#div_log_view").html(outputHTML);
-        }
-        ///////////////////////////////////////////////
-
-        //QQ聊天记录识别
-        function parseInput() {
-            console.log("Parse Input");
-            //Initialize
-            parsedLines = [];
-            nameList = [];
-            logList = [];
-            $("#div_names").html("");
-            $("#div_log").hide();
-
-            var data = $("#textarea_log_input").val();
-            var regHeader =
-                /\d{4}-\d{2}-\d{2} (\d{1,2}:\d{2}:\d{2}) (AM|PM)? ?([^\(]*)/; // 2016-01-03 \d{2}:\d{2}:\d{2}/g name
-            var regHeader2 = /(.*?)(\([0-9]+\))? +(\d{1,2}:\d{2}:\d{2}).*/; // \d{2}:\d{2}:\d{2}/
-            var regDiscard = /^([\.。][rR]|[/\.、。][mM][eE]|[\.。][hH][eE][lL][pP]|[\.。][lL][oO][gG]|[\.。][wW]|[\.。][sS][cC]|[\.。][eE][nN]|[\.。][sS][eE][tT]|[\.。][sS][tT]|[\.。][cC][oO][cC]|[\.。][dD][nN][dD]|[\.。][tTlL][iI]|[\.。][jJ][rR][rR][pP]|[\.。][rR][uU][lL][eE][sS]|[\.。][nN]|[\.。][bB][oO][tT]|[\.。][oO][bB]|[\.。][wW][eE][lL][cC][oO][mM][eE]).*/;
-            var regOther = /^(\(|（).*/;
-            var regPicText = /\[图片\]/;
-            var lines = data.split("\n");
-            var name = "";
-            var time = "";
-            var colorIndex = 0;
-            var player = "";
-            for (var i = 0; i < lines.length; i++) {
-                if (lines[i].length == 0) {
-                    continue;
-                }
-                //Recognize message header
-                var res = lines[i].match(regHeader);
-                var res2 = lines[i].match(regHeader2);
-
-                //Deal with new name
-
-                if (res != null || res2 != null) {
-                    if (res != null) {
-                        name = res[3].trim();
-                        time = res[1];
-                    } else if (res2 != null) {
-                        name = res2[1].trim();
-                        time = res2[3];
-                    }
-                    if (name != "" && name != "系统消息") {
-                        if (!hasPlayer(name)) {
-                            addPlayer(name, colorIndex);
-                            colorIndex ++;
-                        }
-                    }
-
-                } else {
-                    if (name == "") {
-                        continue;
-                    } //Discard messages that come without headers
-                    if (name == "系统消息") {
-                        continue;
-                    }
-                    //Discard 系统消息
-
-                    //Deal with message content
-                    if (commandFilter) {
-                        var discard = lines[i].match(regDiscard);
-                        if (discard != null) {
-                            continue;
-                        }
-                    }
-
-                    if (otherFilter) {
-                        var other = lines[i].match(regOther);
-                        if (other != null) {
-                            continue;
-                        }
-                    }
-
-                    if (picTextFilter) {
-                        lines[i] = lines[i].replace(regPicText, "");
-                        if (lines[i].length == 0) {
-                            continue;
-                        }
-                    }
-
-
-                    //Fix time length to 8
-                    if (time.length != 8) {
-                        time = ' ' + time;
-                    }
-
-                    var log = new Line(time, getPlayer(name), lines[i]);
-                    logList[logList.length] = log;
-                }
-            }
-
-            return nameList.length;
-        }
-
-
-        function paintLogDefault() {
-            console.log("Paint Default");
-            var output = "";
-            var outputHTML = "";
-
-            for (var i = 0; i < logList.length; i++) {
-                //Skip invalid names
-                if (logList[i].player.valid == false) {
-                    continue;
-                }
-
-                var playerColor = logList[i].player.color;
-
-                //HTML中 <a>会被默认为tag
-                var name = logList[i].player.name;
-                var resLetter = name.match(regLetter);
-                if (resLetter) {
-                    name = ' ' + name;
-                }
-
-                if (timeSwitch) {
-                    output += ("[color=" + timeColor + "]" + logList[i].time + "[/color] ");
-                }
-                output += ("[color=" + playerColor + "]" + "<" + logList[i].player.name + "> ");
-                output += logList[i].content;
-                output += "[/color]\n";
-
-                if (timeSwitch) {
-                    outputHTML += ("<span style=\"color:" + timeColor + ";\">" + logList[i].time + "</span> ");
-                }
-                outputHTML += ("<span style=\"color:" + playerColor + ";\">" + "<" + name + "> ");
-                outputHTML += logList[i].content;
-                outputHTML += "</span><br>";
-            }
-
-            if (paletteMode) {
-                output = "调色盘模式下的颜色不兼容果园代码，请双击全选预览中的文字，复制粘贴到Word中保存";
-            }
-            $("#textarea_log_output").val(output);
-
-            $("#div_log_view").html(outputHTML);
-        }
-
-        function paintLog() {
-            console.log("Paint Log");
-            switch (formatMode) {
-            case 1:
-                paintLogSpecialMode1();
-                break;
-            default:
-                paintLogDefault();
-            }
-        }
-
-        $("#button_log_analyze").click(function (e) {
-            console.log("Analyze Click");
-            if ($("#textarea_log_input").val() != "") {
-                $("html,body").animate({ scrollTop: $("#div_names").offset().top }, 500);
-            }
-
-            var playersNum = 0;
-            switch (formatMode) {
-            case 1:
-                playersNum = parseInputSpecialMode1();
-                break;
-            default:
-                playersNum = parseInput();
-            }
-
-            if (playersNum > 0) {
-                getPlayerGrids();
-
-                paintLog();
-
-                $("#div_log").show();
-            } else {
+            $(d).ready(function () {
+                console.log("D ready");
                 $("#div_log").hide();
                 $("#button_palette").hide();
                 $("#defaultMode").hide();
-                $("#div_names")
-                    .html(
-                        '<div class="div_center div_italic" style="color:red"><p>无法识别聊天记录文本，请确认输入格式正确</p></div>');
-            }
-        });
-    }(jQuery, window, document));
 
-</script>
+                var input = $("#textarea_log_input").val();
+                if (input != "") {
+                    $("#button_log_analyze").click();
+                }
+            });
+            $("#button_log_command").click(function () {
+                console.log("Button Log Command Click");
+                commandFilter = !commandFilter;
+                if (!commandFilter) {
+                    $(this).removeClass('btn-info');
+                    $(this).text('指令过滤 Off');
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).addClass('btn-info');
+                    $(this).text('指令过滤 On');
+                    $(this).removeClass('btn-warning');
+                }
+            });
+            $("#button_log_other").click(function () {
+                console.log("Button Log Other Click");
+                otherFilter = !otherFilter;
+                if (!otherFilter) {
+                    $(this).removeClass('btn-info');
+                    $(this).text('(开头内容过滤 Off');
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).addClass('btn-info');
+                    $(this).text('(开头内容过滤 On');
+                    $(this).removeClass('btn-warning');
+                }
+            });
+            $("#button_log_pic_text").click(function () {
+                console.log("Button Log Pic Click");
+                picTextFilter = !picTextFilter;
+                if (!picTextFilter) {
+                    $(this).removeClass('btn-info');
+                    $(this).text('[图片]过滤 Off');
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).addClass('btn-info');
+                    $(this).text('[图片]过滤 On');
+                    $(this).removeClass('btn-warning');
+                }
+            });
+
+            $("#button_log_time").click(function () {
+                console.log("Button Log Time Click");
+                timeSwitch = !timeSwitch;
+                if (!timeSwitch) {
+                    $(this).removeClass('btn-info');
+                    $(this).text('显示时间 Off');
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).addClass('btn-info');
+                    $(this).text('显示时间 On');
+                    $(this).removeClass('btn-warning');
+                }
+            });
+
+            $("#button_log_clear").click(function () {
+                console.log("Button Log Clear Click");
+                $("html,body").animate({ scrollTop: 1 }, "fast");
+                nameList = [];
+                logList = [];
+                $("#div_log").fadeOut("fast");
+                $("#button_palette").hide();
+                $("#textarea_log_input").val("");
+                $("#div_names").html("");
+            });
+
+            $("#div_log_view").dblclick(function () {
+                console.log("Log View DblClick");
+                selectDivText(this.id);
+            });
+
+            $("#textarea_log_output").click(function () {
+                $(this).select();
+            });
+
+            function selectDivText(containerid) {
+                console.log("Select Div Text");
+                var range;
+                if (window.getSelection) {
+                    range = document.createRange();
+                    range.selectNode(document.getElementById(containerid));
+                    var selection = window.getSelection();
+                    selection.empty();
+                    selection.addRange(range);
+                } else if (document.selection) {
+                    range = document.body.createTextRange();
+                    range.moveToElementText(document.getElementById(containerid));
+                    range.select();
+                }
+            }
+
+            $("#button_palette").click(function () {
+                console.log("Button Palette Click");
+                paletteMode = !paletteMode;
+                getPlayerGrids(); //重新绘制颜色区
+                if (paletteMode) {
+                    $(this).text('使用果园颜色');
+                    $("#div_log_view").css("background-color", "#ffffff");
+                } else {
+                    $(this).text('使用调色盘');
+                    $("#div_log_view").css("background-color", "");
+                    paintLog();
+                }
+            });
+
+            //Closure Variables
+
+            //Player Index
+            var nameList = [];
+            //Log Lines
+            var logList = [];
+
+            //Configuration
+
+            //Color Index
+            var colorList =
+                "red;green;pink;orange;purple;black;blue;yellow;beige;brown;teal;navy;maroon;limegreen;white;fuchsia;silver"
+                    .split(';');
+            var colorNameList = "红色;绿色;粉红;橘色;紫色;黑色;蓝色;黄色;米色;棕色;蓝绿;深蓝;紫红;莱姆;白色;桃红;灰色".split(';');
+            //Default color of time
+            var timeColor = "silver";
+            var commandFilter = true;
+            var otherFilter = true;
+            var picTextFilter = true;
+            var timeSwitch = true;
+            var paletteMode = false;
+
+            ////Format Mode Dictionary
+            // 0 QQ聊天记录
+            // 1 艾德琳的文本
+            var formatMode = 0;
+
+            //TODO_IF_NEEDED it can be extended to more colors a player so that name and content can be separated clearly
+            function Player(name, colorIndex) {
+                console.log("Player");
+                this.name = name;
+                this.color = colorList[colorIndex];
+                this.valid = true;
+            }
+
+            function Line(time, player, content) {
+                console.log("Line");
+                this.time = time;
+                this.player = player;
+                this.content = content;
+            }
+
+            function hasPlayer(name) {
+                console.log("hasPlayer");
+                for (var j = 0; j < nameList.length; j++) {
+                    if (nameList[j].name == name) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function addPlayer(name, colorIndex) {
+                console.log("Add Player");
+                nameList[nameList.length] = new Player(name, colorIndex);
+            }
+
+            function getPlayer(name) {
+                console.log("Get Player");
+                for (var j = 0; j < nameList.length; j++) {
+                    if (nameList[j].name == name) {
+                        return nameList[j];
+                    }
+                }
+                return null;
+            }
+
+            function getSelectsHTML(id) {
+                console.log("Get Selects HTML");
+                var selectID = "select_" + id;
+                var html = "";
+                html += '<select name ="' + id + '" id ="' + selectID + '" class="form-control">';
+                for (var i = 0; i < colorNameList.length; i++) {
+                    html += '<option value="' +
+                        colorList[i] +
+                        '" style="background-color:' +
+                        colorList[i] +
+                        ';">' +
+                        colorNameList[i] +
+                        '</option>';
+                }
+                html += '</select>';
+                return html;
+            }
+
+            function getPaletteHTML(id) {
+                console.log("Get Palette HTML");
+                var paletteID = "palette_" + id;
+                var html = "<input class = \"form-control palette\" name = \"" +
+                    id +
+                    '" id ="' +
+                    paletteID +
+                    "\" type=\"text\">";
+                return html;
+            }
+
+            function registerPaletteAction() {
+                console.log("register Palette");
+                $(".palette").each(function () {
+
+                    console.log("Palette each");
+                    var palette = this;
+                    var picker = new w.CP(palette);
+                    //Change color
+
+                    picker.on("change",
+                        function (color) {
+                            console.log("Palette change");
+                            var colorStr = '#' + color;
+                            this.source.value = colorStr;
+                            $(this.source).css("background-color", colorStr);
+                            changeColor(this.source.name, colorStr);
+                        });
+
+                    $(this).click(function () {
+                        console.log("Palette Click");
+                        $(this).select();
+                    });
+
+                    $(this).change(function () {
+                        console.log("Palette Change2");
+                        console.log(w.CP.parse($(this).val()));
+                        picker.set(w.CP.parse($(this).val()));
+                    });
+                    console.log(w.CP.__instance__);
+                });
+            }
+
+            /*//deprecated
+            function getButtonHTML(id) {
+                var html = "";
+                html += '<button type ="button" class="btn btn-success" id ="' + id + '">' + "On" + '</button>';
+                return html;
+            }
+
+            function packageGrid(html, i) {
+                return '<div class="col-sm-' + i.toString() + '">' + html + '</div>';
+            }*/
+
+            function registerColorSelectorAction() {
+                console.log("Reg CS");
+                $("select").change(function () {
+                    var color = $(this).val();
+                    var id = parseInt($(this).attr("name"));
+                    $(this).css("background-color", color);
+                    changeColor(id, color);
+                });
+
+                $("input").change(function () {
+                    var newName = $(this).val();
+                    var id = parseInt($(this).attr("name"));
+                    nameList[id].name = newName;
+                    paintLog();
+                });
+
+                //Update select s' colors
+                selectInit();
+            }
+
+            function getPlayerCell(id, name) {
+                console.log("Get Player Cell");
+                var html;
+                /*
+                var selectID = "option_"+name;
+                var buttonID = "button_"+name;
+                var labelHTML = '<label>' + name +'</label>';
+                html += packageGrid(labelHTML,1);
+                html += packageGrid(getSelectsHTML(selectID),3);
+                html += packageGrid(getButtonHTML(buttonID),2);
+                */
+
+                //Using template
+                if (paletteMode) {
+                    //调色盘模式
+                    html = $("#html_player_grid").html().replace(/&name/g, name)
+                        .replace(/&id/g, id).replace('&select', getPaletteHTML(id));
+                } else {
+                    //默认 果园颜色选择
+                    html = $("#html_player_grid").html().replace(/&name/g, name)
+                        .replace(/&id/g, id).replace('&select', getSelectsHTML(id));
+                }
+
+                return html;
+            }
+
+            function getPlayerGrids() {
+                console.log("Get Player Grids");
+                //2 players 1 line
+                var html = '<div class="div_center div_italic" style="color:red"><p>出现的PC名字 (点击可以修改)</p><br></div>';
+                var i;
+                for (i = 0; i < nameList.length; i++) {
+                    if (i % 2 == 0) {
+                        html += '<div class="row">';
+                    }
+                    html += getPlayerCell(i, nameList[i].name);
+                    if (i % 2 == 1) {
+                        html += '</div>';
+                    }
+                }
+                if (i % 2 == 0) {
+                    html += '</div>';
+                }
+
+                $("#div_names").html(html);
+
+                //初始化所有调色盘后，绑定事件
+                if (paletteMode) {
+                    registerPaletteAction();
+                } else {
+                    registerColorSelectorAction();
+                }
+
+                $("#button_palette").fadeTo("slow", 0.7);
+
+                $(".button_player").click(function () {
+                    var id = parseInt($(this).attr("name"));
+                    var switchNow = changeSwitch(id);
+                    if (!switchNow) {
+                        $(this).removeClass('btn-success');
+                        $(this).text('Off');
+                        $(this).addClass('btn-default');
+                    } else {
+                        $(this).addClass('btn-success');
+                        $(this).text('On');
+                        $(this).removeClass('btn-default');
+                    }
+                });
+            }
+
+            function selectInit() {
+                console.log("SelectInit");
+                for (var i = 0; i < nameList.length; i++) {
+                    var selectID = "#select_" + i;
+                    var color = colorList[i];
+                    nameList[i].color = color;
+                    $(selectID).val(color);
+                    $(selectID).css("background-color", color);
+                }
+            }
+
+            function changeSwitch(playerID) {
+                console.log("Change Switch");
+                nameList[playerID].valid = !nameList[playerID].valid;
+                paintLog();
+                return nameList[playerID].valid;
+            }
+
+            function changeColor(playerID, color) {
+                console.log("Change Color");
+                nameList[playerID].color = color;
+                //Update it
+                if (nameList[playerID].valid) {
+                    paintLog();
+                }
+            }
+
+            var regLetter = /^[a-zA-Z].*/;
+
+            /////////////////////////////////////////////////////////////////
+            //特殊模式1
+            function parseInputSpecialMode1() {
+                console.log("Parse Special");
+                //Initialize
+                nameList = [];
+                logList = [];
+                $("#div_names").html("");
+                $("#div_log").hide();
+
+                var data = $("#textarea_log_input").val();
+
+                var reg = /(.+?)[:：](.*)/; // 2016-01-03 \d{2}:\d{2}:\d{2}/g name
+
+                var lines = data.split("\n");
+                var name;
+                var time = "";
+                var colorIndex = 0;
+                var content;
+                addPlayer("旁白", 0);
+
+                for (var i = 0; i < lines.length; i++) {
+                    //if(lines[i].length == 0){continue;}
+                    var res = lines[i].match(reg);
+                    var log;
+                    if (res != null) {
+                        name = res[1].trim();
+                        content = res[2];
+                        if (name != "") {
+                            if (!hasPlayer(name)) {
+                                addPlayer(name, colorIndex);
+                                colorIndex++;
+                            }
+                        }
+                        log = new Line(time, getPlayer(name), content);
+                        logList[logList.length] = log;
+                    } else {
+                        log = new Line(time, getPlayer("旁白"), lines[i]);
+                        logList[logList.length] = log;
+                    }
+                }
+
+                return nameList.length;
+            }
+
+            function paintLogSpecialMode1() {
+                console.log("Log Special");
+                var output = "";
+                var outputHTML = "";
+
+                for (var i = 0; i < logList.length; i++) {
+
+                    var playerColor = logList[i].player.color;
+                    var playerName = logList[i].player.name;
+                    var content = logList[i].content;
+
+
+                    //该模式下，点人名的开关会把它的话变成旁白，用于纠正错误匹配。无法移去人物对话。
+                    if (logList[i].player.valid == false && playerName != "旁白") {
+                        playerName = "";
+                        playerColor = getPlayer("旁白").color;
+                        content = logList[i].player.name + "：" + logList[i].content;
+                    }
+
+                    if (playerName == "旁白") {
+                        playerName = "";
+                    } else if (playerName != "") {
+                        playerName += "：";
+                    }
+
+                    output += ("[color=" + playerColor + "]" + "" + playerName);
+                    output += content;
+                    output += "[/color]\n";
+
+                    outputHTML += ("<span style=\"color:" + playerColor + ";\">" + "" + playerName);
+                    outputHTML += content;
+                    outputHTML += "</span><br>";
+                }
+
+                if (paletteMode) {
+                    output = "调色盘模式下的颜色不兼容果园代码，请双击全选预览中的文字，复制粘贴到Word中保存";
+                }
+                $("#textarea_log_output").val(output);
+
+                $("#div_log_view").html(outputHTML);
+            }
+            ///////////////////////////////////////////////
+
+            //QQ聊天记录识别
+            function parseInput() {
+                console.log("Parse Input");
+                //Initialize
+                nameList = [];
+                logList = [];
+                $("#div_names").html("");
+                $("#div_log").hide();
+
+                var data = $("#textarea_log_input").val();
+                var regHeader =
+                    /\d{4}-\d{2}-\d{2} (\d{1,2}:\d{2}:\d{2}) (AM|PM)? ?([^\(]*)/; // 2016-01-03 \d{2}:\d{2}:\d{2}/g name
+                var regHeader2 = /(.*?)(\([0-9]+\))? +(\d{1,2}:\d{2}:\d{2}).*/; // \d{2}:\d{2}:\d{2}/
+                var regDiscard = /^([\.。!！][rR]|[/\.、。!！][mM][eE]|[\.。!！][hH][eE][lL][pP]|[\.。!！][lL][oO][gG]|[\.。!！][wW]|[\.。!！][sS][cC]|[\.。!！][eE][nN]|[\.。!！][sS][eE][tT]|[\.。!！][sS][tT]|[\.。!！][cC][oO][cC]|[\.。!！][dD][nN][dD]|[\.。!！][tTlL][iI]|[\.。!！][jJ][rR][rR][pP]|[\.。!！][rR][uU][lL][eE][sS]|[\.。!！][nN]|[\.。!！][bB][oO][tT]|[\.。!！][oO][bB]|[\.。!！][wW][eE][lL][cC][oO][mM][eE]).*/;
+                var regOther = /^(\(|（).*/;
+                var regPicText = /\[图片\]/;
+                var lines = data.split("\n");
+                var name = "";
+                var time = "";
+                var colorIndex = 0;
+                for (var i = 0; i < lines.length; i++) {
+                    if (lines[i].length == 0) {
+                        continue;
+                    }
+                    //Recognize message header
+                    var res = lines[i].match(regHeader);
+                    var res2 = lines[i].match(regHeader2);
+
+                    //Deal with new name
+
+                    if (res != null || res2 != null) {
+                        if (res != null) {
+                            name = res[3].trim();
+                            time = res[1];
+                        } else if (res2 != null) {
+                            name = res2[1].trim();
+                            time = res2[3];
+                        }
+                        if (name != "" && name != "系统消息") {
+                            if (!hasPlayer(name)) {
+                                addPlayer(name, colorIndex);
+                                colorIndex++;
+                            }
+                        }
+
+                    } else {
+                        if (name == "") {
+                            continue;
+                        } //Discard messages that come without headers
+                        if (name == "系统消息") {
+                            continue;
+                        }
+                        //Discard 系统消息
+
+                        //Deal with message content
+                        if (commandFilter) {
+                            var discard = lines[i].match(regDiscard);
+                            if (discard != null) {
+                                continue;
+                            }
+                        }
+
+                        if (otherFilter) {
+                            var other = lines[i].match(regOther);
+                            if (other != null) {
+                                continue;
+                            }
+                        }
+
+                        if (picTextFilter) {
+                            lines[i] = lines[i].replace(regPicText, "");
+                            if (lines[i].length == 0) {
+                                continue;
+                            }
+                        }
+
+
+                        //Fix time length to 8
+                        if (time.length != 8) {
+                            time = ' ' + time;
+                        }
+
+                        var log = new Line(time, getPlayer(name), lines[i]);
+                        logList[logList.length] = log;
+                    }
+                }
+
+                return nameList.length;
+            }
+
+
+            function paintLogDefault() {
+                console.log("Paint Default");
+                var output = "";
+                var outputHTML = "";
+
+                for (var i = 0; i < logList.length; i++) {
+                    //Skip invalid names
+                    if (logList[i].player.valid == false) {
+                        continue;
+                    }
+
+                    var playerColor = logList[i].player.color;
+
+                    //HTML中 <a>会被默认为tag
+                    var name = logList[i].player.name;
+                    var resLetter = name.match(regLetter);
+                    if (resLetter) {
+                        name = ' ' + name;
+                    }
+
+                    if (timeSwitch) {
+                        output += ("[color=" + timeColor + "]" + logList[i].time + "[/color] ");
+                    }
+                    output += ("[color=" + playerColor + "]" + "<" + logList[i].player.name + "> ");
+                    output += logList[i].content;
+                    output += "[/color]\n";
+
+                    if (timeSwitch) {
+                        outputHTML += ("<span style=\"color:" + timeColor + ";\">" + logList[i].time + "</span> ");
+                    }
+                    outputHTML += ("<span style=\"color:" + playerColor + ";\">" + "<" + name + "> ");
+                    outputHTML += logList[i].content;
+                    outputHTML += "</span><br>";
+                }
+
+                if (paletteMode) {
+                    output = "调色盘模式下的颜色不兼容果园代码，请双击全选预览中的文字，复制粘贴到Word中保存";
+                }
+                $("#textarea_log_output").val(output);
+
+                $("#div_log_view").html(outputHTML);
+            }
+
+            function paintLog() {
+                console.log("Paint Log");
+                switch (formatMode) {
+                    case 1:
+                        paintLogSpecialMode1();
+                        break;
+                    default:
+                        paintLogDefault();
+                }
+            }
+
+            $("#button_log_analyze").click(function () {
+                console.log("Analyze Click");
+                if ($("#textarea_log_input").val() != "") {
+                    $("html,body").animate({ scrollTop: $("#div_names").offset().top }, 500);
+                }
+
+                var playersNum;
+                switch (formatMode) {
+                    case 1:
+                        playersNum = parseInputSpecialMode1();
+                        break;
+                    default:
+                        playersNum = parseInput();
+                }
+
+                if (playersNum > 0) {
+                    getPlayerGrids();
+
+                    paintLog();
+
+                    $("#div_log").show();
+                } else {
+                    $("#div_log").hide();
+                    $("#button_palette").hide();
+                    $("#defaultMode").hide();
+                    $("#div_names")
+                        .html(
+                            '<div class="div_center div_italic" style="color:red"><p>无法识别聊天记录文本，请确认输入格式正确</p></div>');
+                }
+            });
+        }(jQuery, window, document));
+
+    </script>
 </body>
 <!--COC Log Painter @Fengyu-->
 </html>
