@@ -633,8 +633,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
         }
 
-        var regLetter = /^[a-zA-Z].*/;
-
         /////////////////////////////////////////////////////////////////
         //特殊模式1
         function parseInputSpecialMode1() {
@@ -831,10 +829,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
                 //HTML中 <a>会被默认为tag
                 var name = logList[i].player.name;
-                var resLetter = name.match(regLetter);
-                if (resLetter) {
-                    name = ' ' + name;
-                }
 
                 if (timeSwitch) {
                     output += ("[color=" + timeColor + "]" + logList[i].time + "[/color] ");
@@ -846,7 +840,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 if (timeSwitch) {
                     outputHTML += ("<span style=\"color:" + timeColor + ";\">" + logList[i].time + "</span> ");
                 }
-                outputHTML += ("<span style=\"color:" + playerColor + ";\">" + "<" + name + "> ");
+                outputHTML += ("<span style=\"color:" + playerColor + ";\">" + "&lt;" + name + "&gt; ");
                 outputHTML += logList[i].content;
                 outputHTML += "</span><br>";
             }
