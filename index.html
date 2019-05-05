@@ -231,7 +231,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 </div>
 <script>
 
-    (function($, w, d) {
+    (function ($, w, d) {
+        function getQueryVariable(variable)
+        {
+            var query = w.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+            }
+            return false;
+        }
+
         function switchToSpecialMode1() {
             $("body").css("background-color", "#f0e4f7");
             $("#div_log_view").css("background-color", "#ffffff");
@@ -299,6 +310,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             $("#div_log").hide();
             $("#button_palette").hide();
             $("#defaultMode").hide();
+            var s3_url = getQueryVariable("s3");
+            if (s3_url) {
+                $.ajax({
+                    url: "https://dicelogger.s3-accelerate.amazonaws.com/" + s3_url, success: function (result) {
+                        $("#textarea_log_input").val(result);
+                        $("#button_log_analyze").click();
+                }});
+            }
 
             var input = $("#textarea_log_input").val();
             if (input != "") {
