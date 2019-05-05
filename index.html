@@ -316,13 +316,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     url: "https://dicelogger.s3-accelerate.amazonaws.com/" + s3_url, success: function (result) {
                         $("#textarea_log_input").val(result);
                         $("#button_log_analyze").click();
-                }});
+                    }
+                });
+            }
+            else {
+                var input = $("#textarea_log_input").val();
+                if (input != "") {
+                    $("#button_log_analyze").click();
+                }
             }
 
-            var input = $("#textarea_log_input").val();
-            if (input != "") {
-                $("#button_log_analyze").click();
-            }
         });
         $("#button_log_command").click(function() {
             commandFilter = !commandFilter;
