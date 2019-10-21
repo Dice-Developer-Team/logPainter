@@ -29,13 +29,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <meta name="theme-color" content="#D1EAF7"/>
 
     <!-- jQuery CDN-->
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+	
     <!-- bootstrap CDN-->
-    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 
     <!-- Latest compiled and minified CSS -->
-    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- 调色盘插件 https://tovic.github.io/color-picker/ -->
     <link href="color-picker.min.css" rel="stylesheet">
@@ -61,6 +61,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         }
 
         #div_page { margin: 50px; }
+		
+		#div_nav { margin: 10px; }
 
         #div_names {
             margin-bottom: 20px;
@@ -107,12 +109,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
         #div_button { margin: 10px; }
 
-        li {
-            background-color: #f6ffbe;
-            border-radius: 5px;
-            width: 50%;
-        }
-
         .input_name {
             background: transparent;
             border: 0;
@@ -127,7 +123,33 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <h2 style="color: white; text-align: center; margin: 10px 0 10px 0; padding: 15px">你的浏览器已严重过时, 请升级到新版本IE或使用Chrome浏览器</h2>
 </div>
 <![endif]-->
+<div id="div_nav">
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
+		<a class="navbar-brand" href="#">
+			<img src="favicon.ico" width="30" height="30" alt="">
+		</a>
+		<a class="navbar-brand" href="#">Dice! Logpainter</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="https://kokona.tech">Dice! 主站</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://github.com/w4123/logpainter">本项目GitHub</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://github.com/w4123/trpglogger">跑团记录器</a
+				</li>
+			</ul>
+		</div>
+	</nav>
+</div>
 <div id="div_page">
+
+
     <div>
         <div class="div_center">
             <h3 id="header_title">QQ跑团记录着色器</h3><h5 id="header_version">v2.4 by 风羽(溯洄改)</h5>
@@ -167,27 +189,24 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </div>
     <div id="div_names">
     </div>
-    <div class="div_center">
-        <a href="http://www.goddessfantasy.net/bbs/index.php?action=post;board=1209.0" target="_blank" rel="noopener">贴到风羽的果园版</a>
-    </div>
 
     <div id="div_log">
-        <h6>复制预览部分内容可得TXT文本，输出部分为果园用代码</h6>
+        <h6>复制预览部分内容可得TXT文本(双击以选中所有文本)，输出部分为果园用代码</h6>
 
         <!-- Nav tabs -->
 
         <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item" role="presentation">
+            <li class="nav-item" role="presentation" style="background-color: #f6ffbe; border-radius: 5px; width: 50%;">
                 <a class="nav-link active show" href="#div_log_view" aria-controls="div_log_view" role="tab" data-toggle="tab">预览</a>
             </li>
-            <li class="nav-item" role="presentation">
+            <li class="nav-item" role="presentation" style="background-color: #f6ffbe; border-radius: 5px; width: 50%;">
                 <a class="nav-link" href="#div_log_output" aria-controls="div_log_output" role="tab" data-toggle="tab">输出</a>
             </li>
         </ul>
 
 
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade active show" id="div_log_view">
+            <div role="tabpanel" class="tab-pane fade active show" id="div_log_view" style="background-color: white">
             </div>
 
             <div role="tabpanel" class="tab-pane fade" id="div_log_output">
@@ -198,30 +217,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 </div>
 
 <script id="html_player_grid" type="html/template">
-        <div class="col-sm-2">
-            <input type="text" class="font-control input_name" name="&id" value="&name" placeholder="删除消息请点右边开关">
-        </div>
-        <div class="col-sm-2" style="min-width: 150px">
-            &select
-        </div>
-        <div class="col-sm-1" style="min-width: 80px">
-            <button style="text-align: center" type="button" class="btn btn-success button_player" name="&id">On</button>
-        </div>
-        <div class="col-sm-1">
-        </div>
-    </script>
+	<div class="col-sm-2">
+		<input type="text" class="font-control input_name" name="&id" value="&name" placeholder="删除消息请点右边开关">
+	</div>
+	<div class="col-sm-2" style="min-width: 150px">
+		&select
+	</div>
+	<div class="col-sm-1" style="min-width: 80px">
+		<button style="text-align: center" type="button" class="btn btn-success button_player" name="&id">On</button>
+	</div>
+	<div class="col-sm-1">
+	</div>
+</script>
 
 <div class="div_footer">
     <!--采用container-fluid，使得整个页尾的宽度为100%，并设置它的背景色-->
     <footer class="container-fluid foot-wrap">
-        <!--采用container，使得页尾内容居中 -->
-        <div class="container div_center">
-            <a href="http://hina.moe/coc/logPainter.php">风羽的原版着色器</a>
-            <br/>
-            <a href="https://github.com/w4123/logPainter" target="_blank" rel="noopener">前往GitHub查看源代码</a>
-        </div><!--/.container-->
-
-
         <p style="text-align: center; margin-top: 20px; color: #878B91;">
             原作者:风羽 Copyright &copy;2017-2019 hina.moe
             <br/>
