@@ -29,13 +29,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <meta name="theme-color" content="#D1EAF7"/>
 
     <!-- jQuery CDN-->
-    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 	
     <!-- bootstrap CDN-->
-    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Latest compiled and minified CSS -->
-    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- 调色盘插件 https://tovic.github.io/color-picker/ -->
     <link href="color-picker.min.css" rel="stylesheet">
@@ -93,7 +93,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
         .button_filter, .button_controller {
             height: 50px;
-            width: 150px;
+            width: 155px;
         }
 
         #div_log_view {
@@ -152,7 +152,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
     <div>
         <div class="div_center">
-            <h3 id="header_title">QQ跑团记录着色器</h3><h5 id="header_version">v2.4 by 风羽(溯洄改)</h5>
+            <h3 id="header_title">QQ跑团记录着色器</h3><h5 id="header_version">v2.5 by 风羽(溯洄改)</h5>
         </div>
         <div class="div_italic">
             <a href="http://aligo.github.io/log-colourer.js">前辈的mirc版传送门</a><br>
@@ -178,20 +178,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <div>
             <button class="button_controller btn btn-success" id="button_log_analyze" style="margin-bottom: 2px">Analyze</button>
             <button class="button_controller btn btn-warning" id="button_log_clear" style="margin-bottom: 2px">清除输入</button>
-            <button class="button_controller btn btn-success" id="button_palette" style="margin-bottom: 2px">使用调色盘</button>
+            <button class="button_controller btn btn-success" id="button_palette" style="margin-bottom: 2px; display: none">使用调色盘</button>
+			<button class="button_controller btn btn-success" id="button_share" style="margin-bottom: 2px; display: none">分享到Dice!论坛</button>
         </div>
 
     </div>
     <br/>
 
     <div class="div_center">
-
     </div>
     <div id="div_names">
     </div>
 
     <div id="div_log">
-        <h6>复制预览部分内容可得TXT文本(双击以选中所有文本)，输出部分为果园用代码</h6>
+        <h6>复制预览部分内容可得TXT文本(双击以选中所有文本)，输出部分为论坛用代码</h6>
 
         <!-- Nav tabs -->
 
@@ -205,7 +205,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </ul>
 
 
-        <div class="tab-content">
+        <div class="tab-content" style="display: flex">
             <div role="tabpanel" class="tab-pane fade active show" id="div_log_view" style="background-color: white">
             </div>
 
@@ -265,20 +265,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
             $("#header_version").fadeOut("slow",
                 function() {
-                    $("#header_version").text("v1.1 by 风羽(溯洄改)");
+                    $("#header_version").text("v1.2 by 风羽(溯洄改)");
                     $("#header_version").fadeIn();
                 });
             $("#specialMode1").hide();
             $("#defaultMode").show();
             formatMode = 1;
             paletteMode = true;
-            $("#button_palette").text('使用果园颜色');
+            $("#button_palette").text('使用论坛颜色');
             $("#div_log_view").css("background-color", "#ffffff");
             nameList = [];
             logList = [];
             $("html,body").animate({ scrollTop: 1 }, "fast");
             $("#div_log").fadeOut("fast");
             $("#button_palette").hide();
+			$("#button_share").hide();
             $("#div_names").html("");
         }
 
@@ -293,7 +294,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
             $("#header_version").fadeOut("slow",
                 function() {
-                    $("#header_version").text("v2.4 by 风羽(溯洄改)");
+                    $("#header_version").text("v2.5 by 风羽(溯洄改)");
                     $("#header_version").fadeIn();
                 });
             $("#defaultMode").hide();
@@ -307,6 +308,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             $("html,body").animate({ scrollTop: 1 }, "fast");
             $("#div_log").fadeOut("fast");
             $("#button_palette").hide();
+			$("#button_share").hide();
             $("#div_names").html("");
         }
 
@@ -320,14 +322,33 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         $(d).ready(function() {
             $("#div_log").hide();
             $("#button_palette").hide();
+			$("#button_share").hide();
             $("#defaultMode").hide();
             var s3_url = getQueryVariable("s3");
             if (s3_url) {
                 $.ajax({
-                    url: "https://dicelogger.s3-accelerate.amazonaws.com/" + s3_url, success: function (result) {
+                    url: "https://dicelogger.s3-accelerate.amazonaws.com/" + s3_url,
+					tryCount : 0,
+					retryLimit : 3,
+					success: function (result) {
                         $("#textarea_log_input").val(result);
                         $("#button_log_analyze").click();
-                    }
+                    },
+					error : function(xhr, textStatus, errorThrown) {
+					    if (textStatus == 'timeout') {
+							this.tryCount++;
+							if (this.tryCount <= this.retryLimit) {
+								//try again
+								$.ajax(this);
+								return;
+							}            
+							return;
+						}
+						else
+						{
+							$("#textarea_log_input").val("获取跑团日志失败! 请刷新重试!");
+						}
+					}
                 });
             }
             else {
@@ -407,6 +428,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             logList = [];
             $("#div_log").fadeOut("fast");
             $("#button_palette").hide();
+			$("#button_share").hide();
             $("#textarea_log_input").val("");
             $("#div_names").html("");
         });
@@ -432,14 +454,24 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             paletteMode = !paletteMode;
             getPlayerGrids(); //重新绘制颜色区
             if (paletteMode) {
-                $(this).text('使用果园颜色');
+                $(this).text('使用论坛颜色');
                 $("#div_log_view").css("background-color", "#ffffff");
+				$("#button_share").hide();
             } else {
                 $(this).text('使用调色盘');
                 $("#div_log_view").css("background-color", "");
+				$("#button_share").fadeTo("slow", 0.7);
                 paintLog();
             }
         });
+		
+		$("#button_share").click(function() {
+			s = $("#textarea_log_output").val();
+			if (!paletteMode && s)
+			{
+				window.open("https://forum.kokona.tech/composer?title=%E8%B7%91%E5%9B%A2%E8%AE%B0%E5%BD%95%E5%88%86%E4%BA%AB&tag=water&content=" + encodeURIComponent(s));
+			}
+		});
 
         //Closure Variables
 
@@ -591,7 +623,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 html = $("#html_player_grid").html().replace(/&name/g, name)
                     .replace(/&id/g, id).replace('&select', getPaletteHTML(id));
             } else {
-                //默认 果园颜色选择
+                //默认 论坛颜色选择
                 html = $("#html_player_grid").html().replace(/&name/g, name)
                     .replace(/&id/g, id).replace('&select', getSelectsHTML(id));
             }
@@ -626,6 +658,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             $("#button_palette").fadeTo("slow", 0.7);
+			$("#button_share").fadeTo("slow", 0.7);
 
             $(".button_player").click(function() {
                 var id = parseInt($(this).attr("name"));
@@ -744,7 +777,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             if (paletteMode) {
-                output = "调色盘模式下的颜色不兼容果园代码，请双击全选预览中的文字，复制粘贴到Word中保存";
+                output = "调色盘模式下的颜色不兼容论坛代码，请双击全选预览中的文字，复制粘贴到Word中保存";
             }
             $("#textarea_log_output").val(output);
 
@@ -762,8 +795,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
             var data = $("#textarea_log_input").val();
             var regHeader =
-                /\d{4}-\d{2}-\d{2} (\d{1,2}:\d{2}:\d{2}) (AM|PM)? ?([^\(]*)/; // 2016-01-03 \d{2}:\d{2}:\d{2}/g name
-            var regHeader2 = /(.*?)(\([0-9]+\))? +(\d{1,2}:\d{2}:\d{2}).*/; // \d{2}:\d{2}:\d{2}/
+                /\d{4}(?:-|\/)\d{1,2}(?:-|\/)\d{1,2} (\d{1,2}:\d{2}:\d{2}) (AM|PM)? ?([^\(]*)/; // 2016-01-03 \d{2}:\d{2}:\d{2}/g name
+			var regHeader2 = /(.*?)(\([0-9]+\))? +\d{4}(?:-|\/)\d{1,2}(?:-|\/)\d{1,2} +(\d{1,2}:\d{2}:\d{2}).*/; // name 2016-01-03 12:35:30
+            var regHeader3 = /(.*?)(\([0-9]+\))? +(\d{1,2}:\d{2}:\d{2}).*/; // \d{2}:\d{2}:\d{2}/
             var regDiscard =
                 /^([\.。!！][rR]|[/\.、。!！][mM][eE]|[\.。!！][hH][eE][lL][pP]|[\.。!！][lL][oO][gG]|[\.。!！][wW]|[\.。!！][sS][cC]|[\.。!！][eE][nN]|[\.。!！][sS][eE][tT]|[\.。!！][sS][tT]|[\.。!！][cC][oO][cC]|[\.。!！][dD][nN][dD]|[\.。!！][tTlL][iI]|[\.。!！][jJ][rR][rR][pP]|[\.。!！][rR][uU][lL][eE][sS]|[\.。!！][nN]|[\.。!！][bB][oO][tT]|[\.。!！][oO][bB]|[\.。!！][wW][eE][lL][cC][oO][mM][eE]).*/;
             var regOther = /^(\(|（).*/;
@@ -779,17 +813,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 //Recognize message header
                 var res = lines[i].match(regHeader);
                 var res2 = lines[i].match(regHeader2);
-
+				var res3 = lines[i].match(regHeader3);
                 //Deal with new name
 
-                if (res != null || res2 != null) {
+                if (res != null || res2 != null || res3 != null) {
                     if (res != null) {
                         name = res[3].trim();
                         time = res[1];
                     } else if (res2 != null) {
                         name = res2[1].trim();
                         time = res2[3];
-                    }
+                    } else if (res3 != null) {
+						name = res2[1].trim();
+                        time = res2[3];
+					}
                     //----------------NEW NAME
                     if (nnameSwitch && name.indexOf('【') == 0 && name.indexOf('】') != -1) {
                         name = name.substr(name.indexOf('】') + 1);
@@ -879,7 +916,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
 
             if (paletteMode) {
-                output = "调色盘模式下的颜色不兼容果园代码，请双击全选预览中的文字，复制粘贴到Word中保存";
+                output = "调色盘模式下的颜色不兼容论坛代码，请双击全选预览中的文字，复制粘贴到Word中保存";
             }
             $("#textarea_log_output").val(output);
 
@@ -919,6 +956,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             } else {
                 $("#div_log").hide();
                 $("#button_palette").hide();
+				$("#button_share").hide();
                 $("#defaultMode").hide();
                 $("#div_names")
                     .html(
