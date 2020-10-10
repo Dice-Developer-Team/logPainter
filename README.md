@@ -13,4 +13,4 @@ TRPG LogPainter
 采用MIT License，请在使用前仔细阅读协议
 
 # 其他注意事项
-如果其他人要用代码的话记得最好删掉其中的Google Analytics代码(不然会把信息都传到我这里来)
+如果其他人要用代码的话记得最好删掉其中的Google Analytics和Google Adsense代码(不然会把信息都传到我这里来)
