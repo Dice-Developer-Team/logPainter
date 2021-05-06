@@ -7,12 +7,13 @@
 <!-- Copyright 2017-2019, hina.moe -->
 <!-- Version 2.4  02/12/2018 优化界面 修正部分错误 更新依赖by溯洄-->
 <!-- Version 2.5  02/12/2018 修正部分错误 更新依赖 添加论坛分享by溯洄-->
-<!-- Copyright 2018-2020, kokona.tech -->
+<!-- Version 2.6  06/05/2021 新增直接下载功能by溯洄-->
+<!-- Copyright 2018-2021, kokona.tech -->
 <!--
 MIT License
 
 Copyright (c) 2017-2019 风羽 hina.moe
-Copyright (c) 2018-2020 溯洄 kokona.tech
+Copyright (c) 2018-2021 溯洄 kokona.tech
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -31,7 +32,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
     <!-- jQuery CDN-->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-	
+
     <!-- bootstrap CDN-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -41,6 +42,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <!-- 调色盘插件 https://tovic.github.io/color-picker/ -->
     <link href="color-picker.min.css" rel="stylesheet">
     <script src="color-picker.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/docx@6.0.3/build/index.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
     <link rel="shortcut icon" href="favicon.ico"/>
 
@@ -54,7 +58,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         gtag('js', new Date());
         gtag('config', 'UA-124322134-3');
     </script>
-	
+
 	<script data-ad-client="ca-pub-6328033898902108" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
     <style>
@@ -64,7 +68,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         }
 
         #div_page { margin: 50px; }
-		
+
 		#div_nav { margin: 10px; }
 
         #div_names {
@@ -155,7 +159,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
     <div>
         <div class="div_center">
-            <h3 id="header_title">QQ跑团记录着色器</h3><h5 id="header_version">v2.5 by 风羽(溯洄改)</h5>
+            <h3 id="header_title">QQ跑团记录着色器</h3><h5 id="header_version">v2.6 by 风羽(溯洄改)</h5>
         </div>
         <div class="div_italic">
             <a href="http://aligo.github.io/log-colourer.js">前辈的mirc版传送门</a><br>
@@ -183,6 +187,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <button class="button_controller btn btn-warning" id="button_log_clear" style="margin-bottom: 2px">清除输入</button>
             <button class="button_controller btn btn-success" id="button_palette" style="margin-bottom: 2px; display: none">使用调色盘</button>
 			<button class="button_controller btn btn-success" id="button_share" style="margin-bottom: 2px; display: none">分享到Dice!论坛</button>
+            <button class="button_controller btn btn-info" id="button_download_txt" style="margin-bottom: 2px; display: none">下载为txt文档</button>
+            <button class="button_controller btn btn-info" id="button_download_docx" style="margin-bottom: 2px; display: none">下载为docx文档</button>
         </div>
 
     </div>
@@ -253,7 +259,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <p style="text-align: center; margin-top: 20px; color: #878B91;">
             原作者:风羽 Copyright &copy;2017-2019 hina.moe
             <br/>
-            修改: 溯洄 Copyright &copy;2018-2019 kokona.tech
+            修改: 溯洄 Copyright &copy;2018-2021 kokona.tech
         </p>
     </footer>
 </div>
@@ -267,7 +273,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             var vars = query.split("&");
             for (var i=0;i<vars.length;i++) {
                 var pair = vars[i].split("=");
-                if(pair[0] == variable){return pair[1];}
+                if(pair[0] == variable){ return pair[1];}
             }
             return false;
         }
@@ -298,6 +304,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             $("#div_log").fadeOut("fast");
             $("#button_palette").hide();
 			$("#button_share").hide();
+            $("#button_download_txt").hide();
+			$("#button_download_docx").hide();
             $("#div_names").html("");
         }
 
@@ -312,7 +320,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
             $("#header_version").fadeOut("slow",
                 function() {
-                    $("#header_version").text("v2.5 by 风羽(溯洄改)");
+                    $("#header_version").text("v2.6 by 风羽(溯洄改)");
                     $("#header_version").fadeIn();
                 });
             $("#defaultMode").hide();
@@ -327,6 +335,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             $("#div_log").fadeOut("fast");
             $("#button_palette").hide();
 			$("#button_share").hide();
+            $("#button_download_txt").hide();
+            $("#button_download_docx").hide();
             $("#div_names").html("");
         }
 
@@ -336,11 +346,29 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         $("#defaultMode").click(function() {
             switchToDefaultMode();
         });
+        $("#button_download_txt").click(function() {
+            saveAs(new Blob([txtData]), "download.txt");
+        });
+        $("#button_download_docx").click(function() {
+            const doc = new docx.Document({
+                sections: [
+                    {
+                        children: docxParagraphs
+                    }
+                ]
+            });
+
+            docx.Packer.toBlob(doc).then((blob) => {
+                saveAs(blob, "download.docx");
+            });
+        });
 
         $(d).ready(function() {
             $("#div_log").hide();
             $("#button_palette").hide();
 			$("#button_share").hide();
+            $("#button_download_txt").hide();
+            $("#button_download_docx").hide();
             $("#defaultMode").hide();
             var s3_url = getQueryVariable("s3");
             if (s3_url) {
@@ -353,13 +381,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         $("#button_log_analyze").click();
                     },
 					error : function(xhr, textStatus, errorThrown) {
-					    if (textStatus == 'timeout') {
+					    if (textStatus === 'timeout') {
 							this.tryCount++;
 							if (this.tryCount <= this.retryLimit) {
 								//try again
 								$.ajax(this);
 								return;
-							}            
+							}
 							return;
 						}
 						else
@@ -371,7 +399,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             }
             else {
                 var input = $("#textarea_log_input").val();
-                if (input != "") {
+                if (input !== "") {
                     $("#button_log_analyze").click();
                 }
             }
@@ -447,6 +475,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             $("#div_log").fadeOut("fast");
             $("#button_palette").hide();
 			$("#button_share").hide();
+            $("#button_download_txt").hide();
+            $("#button_download_docx").hide();
             $("#textarea_log_input").val("");
             $("#div_names").html("");
         });
@@ -482,7 +512,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 paintLog();
             }
         });
-		
+
 		$("#button_share").click(function() {
 			s = $("#textarea_log_output").val();
 			if (!paletteMode && s)
@@ -518,6 +548,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         // 0 QQ聊天记录
         // 1 艾德琳的文本
         var formatMode = 0;
+        var docxParagraphs = [];
+        var txtData = "";
+
 
         //TODO_IF_NEEDED it can be extended to more colors a player so that name and content can be separated clearly
         function Player(name, colorIndex) {
@@ -677,6 +710,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
             $("#button_palette").fadeTo("slow", 0.7);
 			$("#button_share").fadeTo("slow", 0.7);
+            $("#button_download_txt").fadeTo("slow", 1);
+            $("#button_download_docx").fadeTo("slow", 1);
 
             $(".button_player").click(function() {
                 var id = parseInt($(this).attr("name"));
@@ -904,6 +939,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
         function paintLogDefault() {
+            docxParagraphs = [];
+            txtData = "";
             var output = "";
             var outputHTML = "";
 
@@ -931,6 +968,42 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 outputHTML += ("<span style=\"color:" + playerColor + ";\">" + "&lt;" + name + "&gt; ");
                 outputHTML += logList[i].content;
                 outputHTML += "</span><br>";
+
+                // docx
+                var textRuns = []
+                if (timeSwitch)
+                {
+                    textRuns.push(
+                        new docx.TextRun(
+                            {
+                                text: logList[i].time + " ",
+                                color: timeColor
+                            }
+                        )
+                    )
+                }
+
+                textRuns.push(
+                    new docx.TextRun(
+                        {
+                            text: "<" + logList[i].player.name + "> " + logList[i].content,
+                            color: playerColor
+                        }
+                    )
+                )
+
+                docxParagraphs.push(new docx.Paragraph(
+                    {
+                        children: textRuns
+                    }
+                ))
+
+                // txt
+                if (timeSwitch)
+                {
+                    txtData += logList[i].time + " ";
+                }
+                txtData += "<" + logList[i].player.name + "> " + logList[i].content + "\n";
             }
 
             if (paletteMode) {
@@ -952,7 +1025,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         }
 
         $("#button_log_analyze").click(function() {
-            if ($("#textarea_log_input").val() != "") {
+            if ($("#textarea_log_input").val() !== "") {
                 $("html,body").animate({ scrollTop: $("#div_names").offset().top }, 500);
             }
 
@@ -975,6 +1048,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 $("#div_log").hide();
                 $("#button_palette").hide();
 				$("#button_share").hide();
+                $("#button_download_txt").hide();
+                $("#button_download_docx").hide();
                 $("#defaultMode").hide();
                 $("#div_names")
                     .html(
